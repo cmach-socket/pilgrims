@@ -67,7 +67,6 @@ void init() {
 	fs2 >> ppai[0];
 	f[1] = fopen(ppai[1].c_str(), "r");//ÅÆ×éÎÄ¼ş 
 	for (int i = 1; i < MAXIP; i++) {
-		PPP
 		fscanf(f[1], "%d", &paip[1][i]);
 	}
 	fclose(f[1]);
