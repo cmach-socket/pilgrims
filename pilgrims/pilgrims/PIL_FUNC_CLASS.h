@@ -123,23 +123,30 @@ void fa3() {//1003法术使用函数
 	ndian[player] -= 30;
 	for (int i = 1; i <= MAXP - 1; i++) {
 		for (int j = 1; j <= k[0][i]; j++) {
-			printf("%s\n", bing[0][i][j].name.c_str());
 			if (vis[0][i][j]) {
-				bing[0][i][j].xue = -10;
-				isdie(0, i, j);
+				bing[0][i][j].xue = -1000;
+				//isdie(0, i, j);
 			}
 		}
 	}
 	for (int i = 1; i <= MAXP - 1; i++) {
 		for (int j = 1; j <= k[1][i]; j++) {
-			printf("%s\n", bing[0][i][j].name.c_str());
 			if (vis[1][i][j]) {
-				bing[1][i][j].xue = -10;
-				isdie(1, i, j);
+				bing[1][i][j].xue = -1000;
+				//isdie(1, i, j);
 			}
 		}
 	}
-	Sleep(20000);
+	for (int k = 0; k <= 1; k++) {
+		for (int i = 1; i <= MAXP - 1; i++) {
+			for (int j = 1; j <= MAXN; j++) {
+				if (vis[k][i][1]) {
+					isdie(k, i, 1);
+				}
+			}
+		}
+	}
+	
 }
 void fa4() {//1004法术使用函数 
 	for (int i = 1; i <= MAXP - 1; i++) {
