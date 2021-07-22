@@ -30,16 +30,16 @@ public:
 		//¼ÓÔØº¯Êý 
 		name = n;
 		gongji = i1,
-			fanci = i2,
-			xue = i3,
-			gjcishu = i4,
-			shecheng = i5,
-			dun = i6,
-			lingjcs = i7,
-			dianshu = i8,
-			xixue = i9,
-			boolpojia = i10,
-			paishu = i11;
+		fanci = i2,
+		xue = i3,
+		gjcishu = i4,
+		shecheng = i5,
+		dun = i6,
+		lingjcs = i7,
+		dianshu = i8,
+		xixue = i9,
+		boolpojia = i10,
+		paishu = i11;
 		qianfeng = i12;
 		boolji = i13;
 		bihu = i14;

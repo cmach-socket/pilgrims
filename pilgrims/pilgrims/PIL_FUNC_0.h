@@ -104,14 +104,14 @@ void isdie(int a, int b, int c) {//判定死亡
 	k[a][b]--;
 	return;
 }
-int addxb(int bought, int pl) {//增加士员 
+ int addxb(int bought, int pl) {//增加士员 
 	bing[pl][xblist[bought].paishu][++k[pl][xblist[bought].paishu]] = xblist[bought];//赋值上场 
 	vis[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]] = 1; //确认有士员才此 
 	if (xblist[bought].qianfeng)kqian[pl]++;//前锋士员总数增加 
-	bing[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]].jineng();//释放上阵技能 
 	bing[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]].a = pl;
 	bing[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]].b = xblist[bought].paishu;
 	bing[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]].c = k[pl][xblist[bought].paishu];
 	//记录下a b c 
-	return 1;
+	bing[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]].jineng();//释放上阵技能 
+	return k[pl][xblist[bought].paishu];
 }

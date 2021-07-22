@@ -77,7 +77,9 @@ void ji24(int a, int b, int c) {//24士员上阵函数
 	ndian[a] -= 1;
 }
 void ji25(int a, int b, int c) {//25士员上阵函数
-	addxb( dead[deadk], a);
+	if (deadk <= 0)return;
+	int tmp=addxb( dead[deadk], a);
+	bing[a][xblist[dead[deadk]].paishu][tmp].xue=1;
 	deadk--;
 }
 void fa1() {//1001法术使用函数 
