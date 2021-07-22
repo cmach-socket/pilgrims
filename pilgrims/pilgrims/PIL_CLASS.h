@@ -108,3 +108,12 @@ public:
 		return;
 	}
 };
+class abc {//坐标三元组
+public:
+	int a,
+		b,
+		c;
+	abc(int aa, int bb, int cc) {
+		a = aa, b = bb, c = cc;
+	}
+};

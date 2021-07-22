@@ -78,54 +78,67 @@ void ji24(int a, int b, int c) {//24士员上阵函数
 }
 void ji25(int a, int b, int c) {//25士员上阵函数
 	if (deadk <= 0)return;
-	int tmp=addxb( dead[deadk], a);
-	bing[a][xblist[dead[deadk]].paishu][tmp].xue=1;
+	abc tmp=addxb( dead[deadk], a);
+	bing[tmp.a][tmp.b][tmp.c].xue=1;
 	deadk--;
 }
 void fa1() {//1001法术使用函数 
-	int aa, cc, bb;
+	abc tmp(0,0,0);
 	while (1) {
-		aa = input<int>("输入选择被攻击的士员阵营(如攻击玩家2就输入2)");
-		if (aa == 2)aa = 0;
-		bb = input<int>("输入被攻击的士员的排数: ");
-		if (bb > 2) {
+		tmp = wasdin("选择被攻击的一排士员");
+		if (tmp.b> 2) {
 			printf("被攻击士员大于了2排!\n");
+			Sleep(1000);
 			continue;
 		}
-		cc = input<int>("输入被攻击的士员的行号: ");
-		if (bing[aa][bb][cc].xue <= 0) {
+		if (bing[tmp.a][tmp.b][tmp.c].xue <= 0) {
 			printf("受击者为空或者血量不足!\n");
+			Sleep(1000);
 			continue;
 		}
 		break;
 	}
-	bing[aa][bb][cc].gongji -= 5;
-	bing[aa][bb][cc].fanci -= 5;
+	if (bing[tmp.a][tmp.b][tmp.c].bihu) {
+		bing[tmp.a][tmp.b][tmp.c].bihu = 0;
+		return;
+	}
+	if (bing[tmp.a][tmp.b][tmp.c].dun > 0) {
+		bing[tmp.a][tmp.b][tmp.c].dun -= 5;
+	}
+	else {
+		bing[tmp.a][tmp.b][tmp.c].xue -= 5;
+		isdie(tmp.a, tmp.b, tmp.c);
+	}
+	
 	return;
 }
 void fa2() {//1002法术使用函数 
-	int aa, cc, bb = 1;
+	abc tmp(0, 0, 0);
 	while (1) {
-		aa = input<int>("输入选择被攻击的1排士员阵营(如攻击玩家2就输入2)");
-		if (aa == 2)aa = 0;
-		cc = input<int>("输入被攻击的1排士员的行号: ");
-		if (bing[aa][bb][cc].xue <= 0) {
+		tmp = wasdin("选择被攻击的一排士员");
+		if (tmp.b > 2) {
+			printf("被攻击士员大于了2排!\n");
+			Sleep(1000);
+			continue;
+		}
+		if (bing[tmp.a][tmp.b][tmp.c].xue <= 0) {
 			printf("受击者为空或者血量不足!\n");
+			Sleep(1000);
 			continue;
 		}
 		break;
 	}
-	if (bing[aa][bb][cc].bihu) {
-		bing[aa][bb][cc].bihu = 0;
+	if (bing[tmp.a][tmp.b][tmp.c].bihu) {
+		bing[tmp.a][tmp.b][tmp.c].bihu = 0;
 		return;
 	}
-	if (bing[aa][bb][cc].dun > 0) {
-		bing[aa][bb][cc].dun -= 1;
+	if (bing[tmp.a][tmp.b][tmp.c].dun > 0) {
+		bing[tmp.a][tmp.b][tmp.c].dun -= 1;
 	}
 	else {
-		bing[aa][bb][cc].xue -= 1;
+		bing[tmp.a][tmp.b][tmp.c].xue -= 1;
+		isdie(tmp.a, tmp.b, tmp.c);
 	}
-	isdie(aa, bb, cc);
 	return;
 }
 void fa3() {//1003法术使用函数 
@@ -176,74 +189,85 @@ void fa4() {//1004法术使用函数
 	}
 }
 void fa5() {//1005法术使用函数 
-	int aa, cc, bb;
+	abc tmp(0, 0, 0);
 	while (1) {
-		aa = input<int>("输入选择被增加射程的士员阵营(如攻击玩家2就输入2)");
-		if (aa == 2)aa = 0;
-		bb = input<int>("输入被增加射程的士员的排数: ");
-		cc = input<int>("输入被增加射程的士员的行号: ");
-		if (bing[aa][bb][cc].xue <= 0) {
+		tmp = wasdin("选择被增加射程的士员");
+		if (bing[tmp.a][tmp.b][tmp.c].xue <= 0) {
 			printf("受击者为空或者血量不足!\n");
+			Sleep(1000);
 			continue;
 		}
 		break;
 	}
-	bing[aa][bb][cc].shecheng++;
+	bing[tmp.a][tmp.b][tmp.c].shecheng++;
 	return;
 }
 void fa6() {//1006法术使用函数
-	int aa, cc, bb;
-	aa = player;
+	abc tmp(0, 0, 0);
 	while (1) {
-		bb = input<int>("输入背刺的士员的排数: ");
-		cc = input<int>("输入背刺的士员的行号: ");
-		if (bing[aa][bb][cc].xue <= 0) {
+		tmp = wasdin("选择被背刺的士员");
+		if (bing[tmp.a][tmp.b][tmp.c].xue <= 0) {
 			printf("受击者为空或者血量不足!\n");
+			Sleep(1000);
+			continue;
+		}
+		if (tmp.a != player) {
+			printf("非己方士员!");
+			Sleep(1000);
 			continue;
 		}
 		break;
 	}
-	bing[aa][bb][cc].xue -= 1;
-	isdie(aa, bb, cc);
+	bing[tmp.a][tmp.b][tmp.c].xue -= 1;
+	isdie(tmp.a, tmp.b, tmp.c);
 }
 void wu1() {//2001武器使用函数 
-	int aa, cc, bb = 1;
+	abc tmp(0, 0, 0);
 	while (1) {
-		aa = input<int>("输入选择被攻击的1排士员阵营(如攻击玩家2就输入2)");
-		if (aa == 2)aa = 0;
-		cc = input<int>("输入被攻击的1排士员的行号: ");
-		if (bing[aa][bb][cc].xue <= 0) {
+		tmp = wasdin("选择被攻击的一排士员");
+		if (tmp.b > 2) {
+			printf("被攻击士员大于了2排!\n");
+			Sleep(1000);
+			continue;
+		}
+		if (bing[tmp.a][tmp.b][tmp.c].xue <= 0) {
 			printf("受击者为空或者血量不足!\n");
+			Sleep(1000);
 			continue;
 		}
 		break;
 	}
-	if (bing[aa][bb][cc].bihu) {
-		bing[aa][bb][cc].bihu = 0;
+	if (bing[tmp.a][tmp.b][tmp.c].bihu) {
+		bing[tmp.a][tmp.b][tmp.c].bihu = 0;
 		return;
 	}
-	if (bing[aa][bb][cc].dun > 0) {
-		bing[aa][bb][cc].dun -= 5;
+	if (bing[tmp.a][tmp.b][tmp.c].dun > 0) {
+		bing[tmp.a][tmp.b][tmp.c].dun -= 5;
 	}
 	else {
-		bing[aa][bb][cc].xue -= 5;
+		bing[tmp.a][tmp.b][tmp.c].xue -= 5;
+		isdie(tmp.a, tmp.b, tmp.c);
 	}
-	isdie(aa, bb, cc);
+
 	return;
 }
 void wu2() {//2002武器使用函数 
-	int aa, cc, bb = 1;
+	abc tmp(0, 0, 0);
 	while (1) {
-		aa = input<int>("输入选择被治疗的1排士员阵营(如攻击玩家2就输入2)");
-		if (aa == 2)aa = 0;
-		cc = input<int>("输入被治疗的1排士员的行号: ");
-		if (bing[aa][bb][cc].xue <= 0) {
-			printf("受击者为空或者血量不足!\n");
+		tmp = wasdin("选择被治疗的一排士员");
+		if (tmp.b > 2) {
+			printf("被攻击士员大于了2排!\n");
+			Sleep(1000);
+			continue;
+		}
+		if (bing[tmp.a][tmp.b][tmp.c].xue <= 0) {
+			printf("被治疗者为空或者血量不足!\n");
+			Sleep(1000);
 			continue;
 		}
 		break;
 	}
-	bing[aa][bb][cc].xue += 5;
-	if (bing[aa][bb][cc].xue > bing[aa][bb][cc].maxxue)bing[aa][bb][cc].xue = bing[aa][bb][cc].maxxue;
+	bing[tmp.a][tmp.b][tmp.c].xue += 5;
+	if (bing[tmp.a][tmp.b][tmp.c].xue > bing[tmp.a][tmp.b][tmp.c].maxxue)bing[tmp.a][tmp.b][tmp.c].xue = bing[tmp.a][tmp.b][tmp.c].maxxue;
 	return;
 }

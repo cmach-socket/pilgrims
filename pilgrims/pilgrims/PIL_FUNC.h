@@ -1,14 +1,10 @@
 #pragma once
 void initpai();
 void init();
-void flip();
 void sys();
-void useji();
 void paizu();
 int _input();
-void isbreak(int);
 void setin();
-void _move();
 void addpaizu();
 void setban();
 int buyin();
@@ -211,20 +207,16 @@ void setin() {
 int buyin() {
 	tmpb = input<int>("输入选择进行攻击的士员的排数 若选定武器请输入0  ：");
 	if (!tmpb) {
-		if (!wquse(player)) {
-			return 1;
-		}
-		else return 1;
+		wquse(player);
+		return 1;
 	}
 	else {
 		tmpc = input<int>("输入选择进行攻击的士员的行号: ");
 		tmpaa = input<int>("输入选择被攻击的士员阵营(如攻击玩家2就输入2),攻击首脑请输入0: ");
 
 		if (!tmpaa) {
-			if (gjshou(player, tmpb, tmpc, !player)) {
-				return 1;
-			}
-			else return 1;
+			gjshou(player, tmpb, tmpc, !player);
+			return 1;
 		}
 		if (tmpaa == 2)tmpaa -= 2;
 		tmpbb = input<int>("输入被攻击的士员排数: ");
@@ -232,128 +224,42 @@ int buyin() {
 		gongji(player, tmpb, tmpc, tmpaa, tmpbb, tmpcc);
 	}
 }
-void _move(int tmpg) {
-	wasd[wa][wb][wc] = 0;
-	if (tmpg == 'w') {
-		if (wa == 1 and wb == 4 and vis[1][wb][wc]) {
-		}
-		else if (wa == 0 and wb == 1 and vis[1][wb][wc]) {
-			wa = 1;
-		}
-		else if (wa == 1 and vis[wa][wb + 1][wc]) {
-			wb++;
-		}
-		else if (wa == 0 and vis[wa][wb - 1][wc]) {
-			wb--;
-		}
-		else if (wb < 3 and wa == 1 and vis[wa][wb + 2][wc]) {
-			wb += 2;
-		}
-		else if (wb == 1 and wa == 1 and vis[wa][wb + 3][wc]) {
-			wb += 3;
-		}
-		else if (wb > 2 and wa == 0 and vis[wa][wb - 2][wc]) {
-			wb -= 2;
-		}
-		else if (wb == 4 and wa == 0 and vis[wa][wb - 3][wc]) {
-			wb -= 3;
-		}
-	}
-	if (tmpg == 's') {
-		if (wa == 0 and wb == 4) {
-		}
-		else if (wa == 1 and wb == 1 and vis[0][wb][wc]) {
-			wa = 0;
-		}
-		else if (wa == 1 and vis[wa][wb - 1][wc]) {
-			wb--;
-		}
-		else if (wa == 0 and vis[wa][wb + 1][wc]) {
-			wb++;
-		}
-		else if (wb < 3 and wa == 0 and vis[wa][wb + 2][wc]) {
-			wb += 2;
-		}
-		else if (wb == 1 and wa == 0 and vis[wa][wb + 3][wc]) {
-			wb += 3;
-		}
-		else if (wb > 2 and wa == 1 and vis[wa][wb - 2][wc]) {
-			wb -= 2;
-		}
-		else if (wb == 4 and wa == 1 and vis[wa][wb - 3][wc]) {
-			wb -= 3;
-		}
-	}
-	if (tmpg == 'a') {
-		if (wc > 1 and vis[wa][wb][wc - 1]) {
-			wc--;
-		}
-	}
-	if (tmpg == 'd') {
-		if (wc < k[wa][wb] and vis[wa][wb][wc + 1]) {
-			wc++;
-		}
-	}
-	wasd[wa][wb][wc] = 1;
-}
-int buywasd() {
-	int tmpwa, tmpwb, tmpwc, tmpwaa, tmpwbb, tmpwcc;
-	wa = 1, wb = 1, wc = 1;
-	wasd[1][1][1] = 1;
-	while (1) {
-		flip();
-		printf("按空格选择进行攻击的士员,按wasd移动选定,若选择武器请按0,按1取消\n");
-		tmpm = _getch();
-		if (tmpm == ' ') {
-			if (wa != player) {
-				printf("此士员并非你方士员!\n");
-				Sleep(1000);
-				continue;
-			}
-			wasd[wa][wb][wc] = 0;
-			break;
-		}
-		if (tmpm == '0') {
-			wasd[wa][wb][wc] = 0;
-			if (!wquse(player)) {
 
-				return 1;
-			}
-			else return 1;
-		}
-		if (tmpm == '1') {
-			wasd[wa][wb][wc] = 0;
-			return 1;
-		}
-		_move(tmpm);
+int buywasd() {
+	abc tmp1(0,0,0), tmp2(0,0,0);
+	printf("选择武器请按0,选择士员请按1");
+	tmpm = _getch();
+	if (tmpm == '0') {
+		wquse(player);
+		return 1;
 	}
-	tmpwa = wa, tmpwb = wb, tmpwc = wc;
-	wasd[wa][wb][wc] = 0;
-	wa = 1, wb = 1, wc = 1;
-	wasd[1][1][1] = 1;
 	while (1) {
-		flip();
-		printf("按空格选择被攻击的士员,按wasd移动选定,若选定首脑请按0,按1取消\n");
-		tmpm = _getch();
-		if (tmpm == ' ') {
-			break;
-		}
-		if (tmpm == '0') {
-			wasd[wa][wb][wc] = 0;
-			if (gjshou(tmpwa, tmpwb, tmpwc, !player)) {
-				return 1;
-			}
-			else return 1;
-		}
-		if (tmpm == '1') {
+		tmp1 = wasdin("空格选择攻击的士员,按wasd移动选定,按1取消");
+		if (!tmp1.a and !tmp1.b and !tmp1.c) {
 			return 1;
 		}
-		_move(tmpm);
+		if (tmp1.a != player) {
+			printf("此士员并非你方士员!\n");
+			Sleep(1000);
+			continue;
+		}
+		break;
 	}
-	tmpwaa = wa, tmpwbb = wb, tmpwcc = wc;
-	gongji(tmpwa, tmpwb, tmpwc, tmpwaa, tmpwbb, tmpwcc);
-	wasd[wa][wb][wc] = 0;
-	wa = 0, wb = 0, wc = 0;
+	printf("若选定攻击首脑请按0,选择士员请按1");
+	tmpm = _getch();
+	if (tmpm == '0') {
+		wasd[wa][wb][wc] = 0;
+		gjshou(tmp1.a, tmp2.b, tmp2.c, !player);
+		return 1;
+	}
+	while (1) {
+		tmp2 = wasdin("按空格选择被攻击的士员,按wasd移动选定,按1取消");
+		if (!tmp2.a and !tmp2.b and !tmp2.c) {
+			return 1;
+		}
+		break;
+	}
+	gongji(tmp1.a, tmp1.b, tmp1.c, tmp2.a, tmp2.b, tmp2.c);
 }
 int _input() {
 	bool boolb;
@@ -427,7 +333,7 @@ int _input() {
 				return 1;
 			}
 			ndian[player] -= xblist[paip[player][tmpbuy]].dianshu;//点数减少 
-			if (!addxb(paip[player][tmpbuy], player)) {
+			if (addxb(paip[player][tmpbuy], player).c) {
 				return 1;
 			}
 		}
@@ -445,7 +351,7 @@ int _input() {
 	else if (mode == 2) {
 		if (huihes == 1 and player == 1) {
 			printf("第1回合无法攻击!\n");
-			Sleep(1);
+			Sleep(1000);
 			return 1;
 		}
 		if (inmode == 1) {
@@ -553,14 +459,7 @@ int wquse(int pl) {
 	isbreak(pl);
 	return 1;
 }
-void isbreak(int pl) {
-	if (pwuqi[pl].naiju > 0) {
-		return;
-	}
-	pwuqi[pl] = NULLW;
-	return;
-}
-int gjshou(int a, int b, int c, int pl) {
+int gjshou(int a, int b, int c, int pl) {//能否攻击首脑
 	for (int i = 1; i <= MAXP - 1; i++) {
 		if (k[pl][i] > 0) {
 			printf("%s仍有士员在场!\n", p[pl].c_str());
@@ -573,69 +472,6 @@ int gjshou(int a, int b, int c, int pl) {
 	isdie(a, b, c);
 	if (pxue[pl] <= 0)sxb[pl] = 1;
 	return 1;
-}
-void useji() {
-	for (int i = 1; i <= MAXP - 1; i++) {
-		for (int j = 1; j <= k[player][i]; j++) {
-			if (vis[player][i][j]) {
-				bing[player][i][j].huihe();
-				bing[player][i][j].lingjcs = bing[player][i][j].gjcishu;
-			}
-		}
-	}
-	for (int i = 1; i <= MAXP - 1; i++) {
-		for (int j = 1; j <= k[!player][i]; j++) {
-			if (vis[!player][i][j]) {
-				bing[!player][i][j].huihe();
-				bing[!player][i][j].lingjcs = bing[player][i][j].gjcishu;
-			}
-		}
-	}
-	return;
-}
-void flip() {
-	system("cls");
-	printf("玩家1 %s方部队:    %s血量%d 点数:%d 武器:%s 耐久:%d\n", p[1].c_str()
-		, p[1].c_str()
-		, pxue[1]
-		, ndian[1]
-		, pwuqi[1].name.c_str()
-		, pwuqi[1].naiju);
-	for (int i = MAXP - 1; i > 0; i--) {
-		printf("%d: ", i);
-		//printf("%d",k[1][i]);
-		for (int j = 1; j <= k[1][i]; j++) {
-			printf("%d.%c%s%c%d %c%d ", j
-				, wasd[1][i][j] ? '*' : '\0'
-				, bing[1][i][j].name.c_str()
-				, bing[1][i][j].xue >= 10 ? '\0' : '0'
-				, bing[1][i][j].xue
-				, bing[1][i][j].gongji >= 10 or bing[1][i][j].gongji < 0 ? '\0' : '0'
-				, bing[1][i][j].gongji);
-		}
-		printf("\n");
-	}
-	printf("-----------------------------------------------------------------------------------------------------------------------\n");
-	for (int i = 1; i <= MAXP - 1; i++) {
-		printf("%d: ", i);
-		for (int j = 1; j <= k[0][i]; j++) {
-			printf("%d.%c%s%c%d %c%d ", j
-				, wasd[0][i][j] ? '*' : '\0'
-				, bing[0][i][j].name.c_str()
-				, bing[0][i][j].xue >= 10 ? '\0' : '0'
-				, bing[0][i][j].xue
-				, bing[0][i][j].gongji >= 10 or bing[0][i][j].gongji < 0 ? '\0' : '0'
-				, bing[0][i][j].gongji);
-		}
-		printf("\n");
-	}
-	printf("玩家2 %s方部队:    %s血量%d 点数:%d 武器:%s 耐久:%d\n", p[0].c_str()
-		, p[0].c_str()
-		, pxue[0]
-		, ndian[0]
-		, pwuqi[0].name.c_str()
-		, pwuqi[0].naiju);
-	return;
 }
 
 void initpai() {//初始化购买列表 

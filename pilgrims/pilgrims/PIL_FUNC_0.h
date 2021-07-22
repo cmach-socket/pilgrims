@@ -2,7 +2,12 @@
 int gongji(int, int, int, int, int, int);
 void fanci(int, int, int, int, int, int);
 void isdie(int, int, int);
-int addxb(int, int);
+abc addxb(int, int);
+void useji();
+void flip();
+void _move();
+void isbreak(int);
+abc wasdin();
 
 
 int gongji(int a, int b, int c, int aa, int bb, int cc) {//攻击函数 
@@ -104,7 +109,7 @@ void isdie(int a, int b, int c) {//判定死亡
 	k[a][b]--;
 	return;
 }
- int addxb(int bought, int pl) {//增加士员 
+abc addxb(int bought, int pl) {//增加士员 
 	bing[pl][xblist[bought].paishu][++k[pl][xblist[bought].paishu]] = xblist[bought];//赋值上场 
 	vis[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]] = 1; //确认有士员才此 
 	if (xblist[bought].qianfeng)kqian[pl]++;//前锋士员总数增加 
@@ -113,5 +118,161 @@ void isdie(int a, int b, int c) {//判定死亡
 	bing[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]].c = k[pl][xblist[bought].paishu];
 	//记录下a b c 
 	bing[pl][xblist[bought].paishu][k[pl][xblist[bought].paishu]].jineng();//释放上阵技能 
-	return k[pl][xblist[bought].paishu];
+	abc tmp(pl, xblist[bought].paishu, k[pl][xblist[bought].paishu]);
+	return tmp;
+}
+ void useji() {
+	 for (int i = 1; i <= MAXP - 1; i++) {
+		 for (int j = 1; j <= k[player][i]; j++) {
+			 if (vis[player][i][j]) {
+				 bing[player][i][j].huihe();
+				 bing[player][i][j].lingjcs = bing[player][i][j].gjcishu;
+			 }
+		 }
+	 }
+	 for (int i = 1; i <= MAXP - 1; i++) {
+		 for (int j = 1; j <= k[!player][i]; j++) {
+			 if (vis[!player][i][j]) {
+				 bing[!player][i][j].huihe();
+				 bing[!player][i][j].lingjcs = bing[player][i][j].gjcishu;
+			 }
+		 }
+	 }
+	 return;
+ }
+ void flip() {
+	 system("cls");
+	 printf("玩家1 %s方部队:    %s血量%d 点数:%d 武器:%s 耐久:%d\n", p[1].c_str()
+		 , p[1].c_str()
+		 , pxue[1]
+		 , ndian[1]
+		 , pwuqi[1].name.c_str()
+		 , pwuqi[1].naiju);
+	 for (int i = MAXP - 1; i > 0; i--) {
+		 printf("%d: ", i);
+		 //printf("%d",k[1][i]);
+		 for (int j = 1; j <= k[1][i]; j++) {
+			 printf("%d.%c%s%c%d %c%d ", j
+				 , wasd[1][i][j] ? '*' : '\0'
+				 , bing[1][i][j].name.c_str()
+				 , bing[1][i][j].xue >= 10 ? '\0' : '0'
+				 , bing[1][i][j].xue
+				 , bing[1][i][j].gongji >= 10 or bing[1][i][j].gongji < 0 ? '\0' : '0'
+				 , bing[1][i][j].gongji);
+		 }
+		 printf("\n");
+	 }
+	 printf("-----------------------------------------------------------------------------------------------------------------------\n");
+	 for (int i = 1; i <= MAXP - 1; i++) {
+		 printf("%d: ", i);
+		 for (int j = 1; j <= k[0][i]; j++) {
+			 printf("%d.%c%s%c%d %c%d ", j
+				 , wasd[0][i][j] ? '*' : '\0'
+				 , bing[0][i][j].name.c_str()
+				 , bing[0][i][j].xue >= 10 ? '\0' : '0'
+				 , bing[0][i][j].xue
+				 , bing[0][i][j].gongji >= 10 or bing[0][i][j].gongji < 0 ? '\0' : '0'
+				 , bing[0][i][j].gongji);
+		 }
+		 printf("\n");
+	 }
+	 printf("玩家2 %s方部队:    %s血量%d 点数:%d 武器:%s 耐久:%d\n", p[0].c_str()
+		 , p[0].c_str()
+		 , pxue[0]
+		 , ndian[0]
+		 , pwuqi[0].name.c_str()
+		 , pwuqi[0].naiju);
+	 return;
+ }
+ void _move(int tmpg) {
+	 wasd[wa][wb][wc] = 0;
+	 if (tmpg == 'w') {
+		 if (wa == 1 and wb == 4 and vis[1][wb][wc]) {
+		 }
+		 else if (wa == 0 and wb == 1 and vis[1][wb][wc]) {
+			 wa = 1;
+		 }
+		 else if (wa == 1 and vis[wa][wb + 1][wc]) {
+			 wb++;
+		 }
+		 else if (wa == 0 and vis[wa][wb - 1][wc]) {
+			 wb--;
+		 }
+		 else if (wb < 3 and wa == 1 and vis[wa][wb + 2][wc]) {
+			 wb += 2;
+		 }
+		 else if (wb == 1 and wa == 1 and vis[wa][wb + 3][wc]) {
+			 wb += 3;
+		 }
+		 else if (wb > 2 and wa == 0 and vis[wa][wb - 2][wc]) {
+			 wb -= 2;
+		 }
+		 else if (wb == 4 and wa == 0 and vis[wa][wb - 3][wc]) {
+			 wb -= 3;
+		 }
+	 }
+	 if (tmpg == 's') {
+		 if (wa == 0 and wb == 4) {
+		 }
+		 else if (wa == 1 and wb == 1 and vis[0][wb][wc]) {
+			 wa = 0;
+		 }
+		 else if (wa == 1 and vis[wa][wb - 1][wc]) {
+			 wb--;
+		 }
+		 else if (wa == 0 and vis[wa][wb + 1][wc]) {
+			 wb++;
+		 }
+		 else if (wb < 3 and wa == 0 and vis[wa][wb + 2][wc]) {
+			 wb += 2;
+		 }
+		 else if (wb == 1 and wa == 0 and vis[wa][wb + 3][wc]) {
+			 wb += 3;
+		 }
+		 else if (wb > 2 and wa == 1 and vis[wa][wb - 2][wc]) {
+			 wb -= 2;
+		 }
+		 else if (wb == 4 and wa == 1 and vis[wa][wb - 3][wc]) {
+			 wb -= 3;
+		 }
+	 }
+	 if (tmpg == 'a') {
+		 if (wc > 1 and vis[wa][wb][wc - 1]) {
+			 wc--;
+		 }
+	 }
+	 if (tmpg == 'd') {
+		 if (wc < k[wa][wb] and vis[wa][wb][wc + 1]) {
+			 wc++;
+		 }
+	 }
+	 wasd[wa][wb][wc] = 1;
+ }
+ void isbreak(int pl) {
+	 if (pwuqi[pl].naiju > 0) {
+		 return;
+	 }
+	 pwuqi[pl] = NULLW;
+	 return;
+ }
+ abc wasdin(string s) {
+	 wasd[wa][wb][wc] = 0;
+	 wa = 1, wb = 1, wc = 1;
+	 wasd[1][1][1] = 1;
+	 while (1) {
+		 flip();
+		 printf("%s\n",s.c_str());
+		 tmpm = _getch();
+		 if (tmpm == ' ') {
+			 wasd[wa][wb][wc] = 0;
+			 break;
+		 }
+		 if (tmpm == '1') {
+			 wasd[wa][wb][wc] = 0;
+			 return abc(0,0,0);
+		 }
+		 _move(tmpm);
+	 }
+	 wasd[wa][wb][wc] = 0;
+	 return abc(wa, wb, wc);
 }
