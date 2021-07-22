@@ -362,19 +362,39 @@ int _input() {
 	printf("选择操作:1购买放置单位 2攻击敌方 3结束回合:\n");
 	mode = _getch() - '0';
 	if (mode == 1) {
+		string putname1, putname2;
+		int putdian1,putdian2;
 		tmpche = 1;
-		printf("您的队伍: ");
-		for (int i = 1; i < MAXIP; i++) {
+		printf("您的队伍: \n");
+		for (int i = 1; i < MAXIP-10; i++) {
 			if (paip[player][i] > 0) {
 				if (paip[player][i] >= 1000 and paip[player][i] < 2000) {
-					printf("%d.%s ", i, fslist[paip[player][i] - 1000].name.c_str());
-					continue;
+					putname1 = fslist[paip[player][i] - 1000].name;
+					putdian1 = fslist[paip[player][i] - 1000].dianshu;
+					//printf("%d.%s ", i, fslist[paip[player][i] - 1000].name.c_str());
 				}
-				if (paip[player][i] >= 2000) {
-					printf("%d.%s ", i, wqlist[paip[player][i] - 2000].name.c_str());
-					continue;
+				else if (paip[player][i] >= 2000) {
+					putname1 = wqlist[paip[player][i] - 2000].name;
+					putdian1 = wqlist[paip[player][i] - 2000].dianshu;
+					//printf("%d.%s ", i, wqlist[paip[player][i] - 2000].name.c_str());
 				}
-				printf("%d.%s ", i, xblist[paip[player][i]].name.c_str());
+				else putname1 = xblist[paip[player][i]].name, putdian1 = xblist[paip[player][i]].dianshu;
+				//printf("%d.%s ", i, xblist[paip[player][i]].name.c_str());
+			}
+			if (paip[player][i+10] > 0) {
+				if (paip[player][i+10] >= 1000 and paip[player][i+10] < 2000) {
+					putname2 = fslist[paip[player][i+10] - 1000].name;
+					putdian2 = fslist[paip[player][i+10] - 1000].dianshu;
+					//printf("%d.%s ", i, fslist[paip[player][i] - 1000].name.c_str());
+				}
+				else if (paip[player][i+10] >= 2000) {
+					putname2 = wqlist[paip[player][i+10] - 2000].name;
+					putdian2 = wqlist[paip[player][i+10] - 2000].dianshu;
+					//printf("%d.%s ", i, wqlist[paip[player][i] - 2000].name.c_str());
+				}
+				else putname2 = xblist[paip[player][i+10]].name, putdian2 = xblist[paip[player][i+10]].dianshu;
+				//printf("%d.%s ", i, xblist[paip[player][i]].name.c_str());
+				printf("%d.%s %d点                %d.%s %d点\n", i, putname1.c_str(), putdian1, i + 10, putname2.c_str(), putdian2);
 			}
 		}
 		printf("\n");

@@ -73,6 +73,13 @@ void ji23(int a, int b, int c) {//23士员上阵函数
 		}
 	}
 }
+void ji24(int a, int b, int c) {//24士员上阵函数
+	ndian[a] -= 1;
+}
+void ji25(int a, int b, int c) {//25士员上阵函数
+	addxb( dead[deadk], a);
+	deadk--;
+}
 void fa1() {//1001法术使用函数 
 	int aa, cc, bb;
 	while (1) {
@@ -181,6 +188,21 @@ void fa5() {//1005法术使用函数
 	}
 	bing[aa][bb][cc].shecheng++;
 	return;
+}
+void fa6() {//1006法术使用函数
+	int aa, cc, bb;
+	aa = player;
+	while (1) {
+		bb = input<int>("输入背刺的士员的排数: ");
+		cc = input<int>("输入背刺的士员的行号: ");
+		if (bing[aa][bb][cc].xue <= 0) {
+			printf("受击者为空或者血量不足!\n");
+			continue;
+		}
+		break;
+	}
+	bing[aa][bb][cc].xue -= 1;
+	isdie(aa, bb, cc);
 }
 void wu1() {//2001武器使用函数 
 	int aa, cc, bb = 1;
