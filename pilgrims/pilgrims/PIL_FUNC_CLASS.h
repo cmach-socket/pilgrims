@@ -31,20 +31,18 @@ void yuan13(int a, int b, int c) {//13士员怨念函数
 	}
 }
 void ji16(int a, int b, int c) {//16士员上阵函数 
-	int aa, cc, bb;
+	abc tmp(0, 0, 0);
 	while (1) {
-		aa = input<int>("输入选择被增加攻击的士员阵营(如攻击玩家2就输入2)");
-		if (aa == 2)aa = 0;
-		bb = input<int>("输入被增加攻击的士员的排数: ");
-		cc = input<int>("输入被增加攻击的士员的行号: ");
-		if (bing[aa][bb][cc].xue <= 0) {
+		tmp = wasdin("选择被增加攻击的士员");
+		if (bing[tmp.a][tmp.b][tmp.c].xue <= 0) {
 			printf("受击者为空或者血量不足!\n");
+			Sleep(1000);
 			continue;
 		}
 		break;
 	}
-	bing[aa][bb][cc].gongji += 5;
-	bing[aa][bb][cc].fanci += 5;
+	bing[tmp.a][tmp.b][tmp.c].gongji += 5;
+	bing[tmp.a][tmp.b][tmp.c].fanci += 5;
 	return;
 }
 void yuan17(int a, int b, int c) {//17士员怨念函数 
@@ -81,6 +79,11 @@ void ji25(int a, int b, int c) {//25士员上阵函数
 	abc tmp=addxb( dead[deadk], a);
 	bing[tmp.a][tmp.b][tmp.c].xue=1;
 	deadk--;
+}
+void hui26(int a, int b, int c) {//26士员怒气函数
+	if (bing[a][b][c].xue <= 5) {
+		bing[a][b][c].gongji = 15;
+	}
 }
 void fa1() {//1001法术使用函数 
 	abc tmp(0,0,0);
@@ -219,7 +222,21 @@ void fa6() {//1006法术使用函数
 		break;
 	}
 	bing[tmp.a][tmp.b][tmp.c].xue -= 1;
+	usefa[player] = 0;
 	isdie(tmp.a, tmp.b, tmp.c);
+}
+void fa7() {//1007法术使用函数
+	abc tmp(0, 0, 0);
+	while (1) {
+		tmp = wasdin("选择被攻击的士员");
+		if (bing[tmp.a][tmp.b][tmp.c].xue <= 0) {
+			printf("受击者为空或者血量不足!\n");
+			Sleep(1000);
+			continue;
+		}
+		break;
+	}
+	bing[tmp.a][tmp.b][tmp.c].hui = tmphui;
 }
 void wu1() {//2001武器使用函数 
 	abc tmp(0, 0, 0);
