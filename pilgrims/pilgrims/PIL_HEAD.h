@@ -17,4 +17,4 @@ using namespace std;
 #include "PIL_FUNC_0.h"//不依赖于具体变量的实现的函数
 #include "PIL_FUNC_CLASS.h"//只依赖FUCNC_0函数的函数
 #include "PIL_VER2.h"//具体变量
-#include "PIL_FUNC.h"//其余变量
+#include "PIL_FUNC.h"//其余函数

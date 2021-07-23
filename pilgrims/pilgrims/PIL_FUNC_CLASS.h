@@ -172,7 +172,7 @@ void fa3() {//1003法术使用函数
 }
 void fa4() {//1004法术使用函数 
 	for (int i = 1; i <= MAXP - 1; i++) {
-		for (int j = 1; j <= k[0][i]; j++) {
+		for (int j = k[0][i]; j >= 1; j--) {
 			if (vis[0][i][j]) {
 				bing[0][i][j].xue -= 1;
 				isdie(0, i, j);
@@ -180,7 +180,7 @@ void fa4() {//1004法术使用函数
 		}
 	}
 	for (int i = 1; i <= MAXP - 1; i++) {
-		for (int j = 1; j <= k[1][i]; j++) {
+		for (int j = k[1][i]; j >= 1; j--) {
 			if (vis[1][i][j]) {
 				bing[1][i][j].xue -= 1;
 				isdie(1, i, j);
