@@ -27,7 +27,7 @@ void init() {
 	Sleep(500);
 	slowout("作者:cmach_socket\n");
 	Sleep(500);
-	slowout("版本号:1.0.210322\n");
+	slowout("版本号:"+BAN+"\n");
 	system("pause");
 	//前言 
 	while (1) {
